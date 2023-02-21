@@ -28,7 +28,11 @@ const nameSchema = new mongoose.Schema({
 
 const Names = mongoose.model("Names", nameSchema);
 
- Names.create({fname:'KATENDE',lname:'DAVIS'}).then(console.log('student added'));
+
+
+
+
+
 
 
 /*
@@ -89,10 +93,23 @@ app.get('/new',(req,res)=>{
 app.post('/new',(req,res)=>{
 const firstname = req.body.fname;
 const lastname = req.body.lname;
+
+async function addStudent(){
+    results = await Names.create({fname:firstname,lname:lastname});
+    res.redirect('/');
+}
+
+ addStudent();
+
+
+
+/*
 db.query('insert into `List-app`.students (fname,lname) values(?,?)',[firstname,lastname],(err,result)=>{
 if (err) throw err;
 res.redirect('/');
 });
+*/
+
 });
 
 
@@ -100,23 +117,68 @@ res.redirect('/');
 
 
 app.get('/edit/:id',(req,res)=>{
+
+    async function getStudent(){
+try{
+
+    let results =  await Names.findById(req.params.id);
+     
+    res.render('edit',{data:results});
+    
+
+} catch(err){
+    console.log(err);
+}
+       
+    
+    }
+    getStudent();
+
+
+/*
+
+
     db.query('select * from `List-app`.students where id=?',[req.params.id],(err,results)=>{
         if(err) throw err;
         res.render('edit',{data:results[0]});
 
     });
+    */
 
 });
 
 
 app.post('/edit/:id',(req,res)=>{
+    async function editStudent(){
+        try{
+        
+            let results =  await Names.findById(req.params.id);
+             results.fname = req.body.fname;
+             results.lname = req.body.lname;
+             await results.save();
 
+             res.redirect('/');
+        
+        } catch(err){
+            console.log(err);
+        }
+               
+            
+            }
+            editStudent();
+
+
+
+
+/*
     db.query('update `List-app`.students set fname = ? , lname = ? where id = ?',[req.body.fname ,req.body.lname,req.params.id],(err,results)=>{
         if (err) throw err;
         console.log(results);
         res.redirect('/');
 
     });
+*/
+
 
 });
 

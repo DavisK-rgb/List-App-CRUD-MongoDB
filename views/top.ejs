@@ -24,11 +24,11 @@
                
             </thead>
             <tbody>
-              
+              <% let d = 1 %>
               <% students.forEach((student)=>{%>
-                
+               
               <tr>
-                <th scope="row"><%= student.id %></th>
+                <th scope="row"><%= d %></th>
                 <td><%=student.fname%></td>
                 <td>
                   <%=student.lname%> 
@@ -48,6 +48,7 @@
                 </td>
                
               </tr>
+              <% d++ %>
             
               <%});%>
               

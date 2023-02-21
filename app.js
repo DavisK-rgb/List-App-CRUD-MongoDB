@@ -185,11 +185,30 @@ app.post('/edit/:id',(req,res)=>{
 
 
 app.post('/delete/:id',(req,res)=>{
+
+    async function deleteStudent(){
+        try{
+        
+            await Names.deleteOne({_id:req.params.id});
+             
+             res.redirect('/');
+        
+        } catch(err){
+            console.log(err);
+        }
+               
+            
+            }
+            deleteStudent();
+
+
+    /*
     db.query('delete from `List-app`.students where id = ?',[req.params.id],(err,results)=>{
         if(err) throw err;
         res.redirect('/');
 
     });
+    */
 
 
 
